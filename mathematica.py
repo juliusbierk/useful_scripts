@@ -2,9 +2,9 @@ from __future__ import division
 import re
 
 s = """
-(1 + e (1 + k - 
-    a k) - Sqrt[(-1 - (1 + a) e + (-1 + a) e k) (-1 + (-1 + a) e (1 + 
-       k))])/(a e)
+((dt kb + xib) (dt F20 + db2p xib) + 
+ cb dt (dt (F10 + F20) + (db1p + db2p) xib))/((dt kb + xib) (2 cb dt +
+    dt kb + xib))
 """
 
 expr = s.replace('\n','').replace('[','(').replace(']',') ').replace('\\','')
@@ -24,9 +24,14 @@ expr = expr.replace('Pi','np.pi')
 expr = expr.replace('{','[')
 expr = expr.replace('}',']')
 expr = expr.replace('Abs','np.abs')
-expr = expr.replace('Cot','np.cot')
-expr = expr.replace('Csc','np.csc')
-expr = expr.replace('Sec','np.sec')
+expr = expr.replace('Cot','cot')
+expr = expr.replace('Csc','csc')
+expr = expr.replace('Sec','sec')
+expr = expr.replace('BesselI','iv')
+expr = expr.replace('Erfc','erfc')
+expr = expr.replace('Erf','erf')
+expr = expr.replace('(Sqrt)*(','np.sqrt(')
+
 def cot(x):
   return 1./np.tan(x)
 def sec(x):
@@ -44,7 +49,7 @@ for i, s in enumerate(expr):
     count = 0
     indeces.append(last_i)
     last_i = -1
-  if s in ['+','-','*','/','^']:
+  if s in ['+','-','*','/']:
     last_i = i
 expr = "".join([(s+' \\\n' if i in indeces else s) for i,s in enumerate(expr)])
 expr = expr.replace('^','**')

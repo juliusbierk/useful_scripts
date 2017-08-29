@@ -1,12 +1,12 @@
 import os
 import glob
 
-format = 'bmp'
-in_folder = 'imgs/flag3right'
-out_folder = 'imgs/short'
+format = 'tif'
+in_folder = 'Pos0'
+out_folder = 'small'
 start = 0
 stop = 1500
-
+skip = 2
 
 files = glob.glob(in_folder+'/*.'+format)[start:stop]
 
